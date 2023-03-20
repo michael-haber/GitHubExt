@@ -1,0 +1,21 @@
+﻿@model UserSearch.Data.GitHub.UserInfoModel
+
+<div class="user-detail-result">
+    <div class="user-detail-head-container"> 
+        <div class="user-detail-avatar-container">
+            <img class="user-detail-avatar" src="@Model.AvatarUrl">
+        </div>
+        <div class="user-detail-info-container">
+            <span>@Model.Login</span>
+            <span>@Model.Name</span>
+            <span>@Model.Location</span>
+            <span>@Model.Bio</span>
+            <span>@Model.Followers Followers -- @Model.Following Following</span>
+            <span>@Model.PublicRepos public repos</span>
+            <span>Created @Model.Created</span>
+        </div>
+    </div>
+    <div class="user-detail-foot-container" style="clear: left;padding: 10px;">
+        <a href="@Model.HtmlUrl" target="_">Visit page for @Model.Login</a>
+    </div>
+</div>

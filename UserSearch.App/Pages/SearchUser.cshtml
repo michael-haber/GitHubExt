@@ -1,0 +1,120 @@
+﻿@page
+@model UserSearch.App.Pages.SearchUserModel
+@{
+    ViewData["Title"] = "Search";
+}
+
+<form method="post">
+    <h3>GitHub User Search</h3>
+
+    <input asp-for="@Model.UserSearchTerm" placeholder="Search GitHub" />
+    <input type="submit" value="Search" asp-page-handler="Search" /> 
+
+    @if (Model.TotalResults > 0 && Model.UserSearchResult.Items != null)
+    {
+        <span>@Model.TotalResults total results found.</span>
+        
+        <br /><br />
+
+        @foreach(var result in Model.UserSearchResult.Items)
+        {
+            <div class="user-result-tile">
+                <a class="user-info" href="#">
+                    <div class="user-avatar-container">
+                        <img class="user-avatar" src="@result.AvatarUrl" />
+                    </div>
+                    <div class="user-login-container">
+                        <span class="user-login">@result.Login</span>
+                    </div>
+                </a>
+            </div>
+        }
+
+        <ul class="page-buttons">
+            <li class="page-item @(string.IsNullOrEmpty(Model.FirstPage) ? "disabled" : string.Empty)">
+                <a class="page-link" asp-page-handler="Navigate" asp-route-Term="@Model.UserSearchTerm" asp-route-CurrentPage="@Model.FirstPage" class="">
+                    @*<i class="fas fa-fast-backward"></i>*@
+                    &lt;&lt;
+                </a>
+            </li>
+            <li class="page-item @(string.IsNullOrEmpty(Model.PrevPage) ? "disabled" : string.Empty)">
+                <a class="page-link" asp-page-handler="Navigate" asp-route-Term="@Model.UserSearchTerm" asp-route-CurrentPage="@Model.PrevPage" class="">
+                    @*<i class="fas fa-step-backward"</i>*@
+                    &lt;
+                </a>
+            </li>
+            <li class="page-item disabled" >
+                <span class="page-link current-page">@Model.PageNumber</span>
+            </li>
+            <li class="page-item @(string.IsNullOrEmpty(Model.NextPage) ? "disabled" : string.Empty)">
+                <a class="page-link" asp-page-handler="Navigate" asp-route-Term="@Model.UserSearchTerm" asp-route-CurrentPage="@Model.NextPage" class="">
+                    @*<i class="fas fa-step-forward"></i>*@
+                    &gt;
+                </a>
+            </li>
+            <li class="page-item @(string.IsNullOrEmpty(Model.LastPage) ? "disabled" : string.Empty)">
+                <a class="page-link" asp-page-handler="Navigate" asp-route-Term="@Model.UserSearchTerm" asp-route-CurrentPage="@Model.LastPage" class="">
+                    @*<i class="fas fa-fast-backward"></i>*@
+                    &gt;&gt;
+                </a>
+            </li>
+        </ul>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.UserSearchTerm))
+    {
+        <br /><br />
+        <h4>No results found.</h4>
+    }
+
+    <div class="web-api-time">
+        <span>@Model.QueryElapsedTime</span>
+    </div>
+</form>
+
+<div id="partialModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">User Search - Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* Modal dialog javascript *@
+    <script type="text/javascript">
+        $("a.user-info").on('click', function () {
+            var userLogin = $(this).find(".user-login").text();
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Content("~/SearchUser")",
+                data: { "handler": "RenderUserInfo", "userLogin": userLogin },
+                success: function (response) {
+                    $("#partialModal").find(".modal-body").html(response);
+                    $("#partialModal").modal('show');
+                },
+                failure: function (response) {
+                    console.log(response.responseText);
+                },
+                error: function (response) {
+                    console.log(response.responseText);
+                }
+            });
+        });
+        $(".modal-dialog").on('click', 'button', function() {
+            $("#partialModal").fadeOut(500, function() {
+                $("#partialModal").modal('hide');
+            });
+        });
+    </script>
+}

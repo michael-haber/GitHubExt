@@ -7,6 +7,7 @@ namespace UserSearch.Test
         [SetUp]
         public void Setup()
         {
+            // Method intentionally left empty...for now.
         }
 
         [Test]

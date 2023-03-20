@@ -16,3 +16,107 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.container {
+    max-width: 90%;
+}
+
+form {
+    box-sizing: initial;
+}
+
+.user-result-tile {
+    display: inline;
+    float: left;
+    padding: 5px;
+    width: 160px;
+    margin: 5px;
+    background-color: #F0F0F0;
+}
+
+a.user-info {
+    text-decoration: none;
+}
+
+.user-avatar-container {
+    display: flex;
+    justify-content: center;
+    height: 150px;
+}
+
+.user-avatar {
+    max-width: 150px;
+}
+
+.user-login-container {
+    overflow: hidden;
+}
+
+a .user-login {
+    color: #000;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.not-clickable {
+    cursor: default;
+}
+
+.page-buttons {
+    list-style: none;
+    display: flex;
+    clear: left;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+    .page-buttons li {
+    }
+
+.web-api-time {
+    text-align: right;
+}
+
+.modal-dialog .modal-content {
+    background-color: #DDD;
+}
+
+.modal-dialog .close {
+    border: 0;
+    border-radius: 2px;
+    background-color: #999;
+    height: 20px;
+    line-height: 1em;
+    padding-bottom: 20px;
+}
+
+.user-detail-result {
+    background-color: #CCC;
+}
+
+.user-detail-head-container {
+    display: flex;
+    padding: 10px 5px;
+}
+
+.user-detail-avatar-container {
+}
+
+.user-detail-avatar {
+    max-width: 205px;
+}
+
+.user-detail-info-container {
+    padding-left: 10px;
+}
+
+    .user-detail-info-container span {
+        display: block;
+    }
